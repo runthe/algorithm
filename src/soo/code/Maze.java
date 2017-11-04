@@ -1,10 +1,10 @@
-package soo.example;
+package soo.code;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+public class Maze {
 
   private static int[][] arr;
   private static int n, m, min;
