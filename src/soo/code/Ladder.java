@@ -5,49 +5,64 @@ import java.util.Scanner;
 public class Ladder {
 
   private static int[][] ladder;
+  private static int ladderX;
+  private static int ladderY;
 
   public static void main(String[] args) {
     initialize();
-
-    int xLength = ladder.length;
-    int yLength = ladder[0].length;
-
-
-    for (int i = 0; i <= 25; i++) {
-      char ch = (char) (i + 65);
-      System.out.print(ch);
-    }
-
-
-    for (int i = 0; i < xLength; i++) {
-      System.out.print(i + 1 + " ");
-      for (int j = 0; j < yLength; j++) {
-        System.out.print(ladder[i][j] + " ");
-      }
-      System.out.println("");
-    }
-
-    //print();
+    start();
   }
 
-  private static void print() {
-    for (int i = 0; i < ladder.length; i++) {
-      for (int j = 0; j < ladder[0].length; j++) {
-        System.out.print(ladder[i][j] + " ");
-      }
-      System.out.println("");
+  private static void start() {
+    for (int i = 0; i < ladderY; i++) {
+      System.out.print(i + 1 + " ");
+      ride(0, i);
     }
+  }
+
+  private static void ride(int x, int y) {
+    if (x == ladderX) {
+      System.out.println((char) (y + 65));
+      return;
+    }
+
+    int moveX = 0, moveY = 0;
+
+    if (isOne(ladder[x][y])) {
+      if (isValidPath(x, y - 1) && isOne(ladder[x][y - 1])) {
+        moveX = x + 1;
+        moveY = y - 1;
+      }
+
+      if (isValidPath(x, y + 1) && isOne(ladder[x][y + 1])) {
+        moveX = x + 1;
+        moveY = y + 1;
+      }
+    } else {
+      moveX = x + 1;
+      moveY = y;
+    }
+
+    ride(moveX, moveY);
+  }
+
+  private static boolean isOne(int value) {
+    return value == 1;
+  }
+
+  private static boolean isValidPath(int x, int y) {
+    return x >= 0 && y >= 0 && x < ladderX && y < ladderY;
   }
 
   private static void initialize() {
     Scanner sc = new Scanner(System.in);
 
-    int x = sc.nextInt();
-    int y = sc.nextInt();
+    ladderY = sc.nextInt();
+    ladderX = sc.nextInt();
 
-    ladder = new int[y][x];
+    ladder = new int[ladderX][ladderY];
 
-    for (int i = 0; i < y; i++) {
+    for (int i = 0; i < ladderX; i++) {
       int flag = sc.nextInt() - 1;
 
       ladder[i][flag] = 1;

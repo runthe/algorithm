@@ -1,4 +1,4 @@
-package soo.code.hackerrank;
+package soo.code.hackerrank.test;
 
 
 import java.util.ArrayList;

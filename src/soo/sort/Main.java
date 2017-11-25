@@ -1,15 +1,18 @@
 package soo.sort;
 
+import java.util.Arrays;
+
 public class Main {
 
   public static void main(String[] args) {
     int[] sortArray = new int[]{5, 8, 1, 2, 6, 9};
 
-    long start = System.currentTimeMillis(); //시작하는 시점 계산
+    long start = System.currentTimeMillis();
+
     //new BubbleÎ().sort(sortArray);
     //new Selection().sort(sortArray);
-    ///new Insertion().sort(sortArray);
-    new Quick().sort(sortArray, 0, sortArray.length - 1);
+    new Insertion().sort(sortArray);
+    //new Quick().sort(sortArray, 0, sortArray.length - 1);
     long end = System.currentTimeMillis(); //프로그램이 끝나는 시점 계산
     System.out.println("실행 시간 : " + (end - start) / 1000.0 + "초"); //실행 시간 계산 및 출력
 
@@ -107,6 +110,67 @@ class Quick {
   }
 }
 
+class Merge {
+
+  public void mergeSort(int num[], int length) {
+    int center = length / 2;
+    int leftNum[] = new int[center];
+    int rightNum[] = new int[length - center];
+
+    if (length == 1) return;
+
+
+    //왼쪽배열
+    for (int i = 0; i < center; i++) {
+      leftNum[i] = num[i];
+    }
+    //오른쪽배열
+    for (int i = 0; i < length - center; i++) {
+      rightNum[i] = num[center + i];
+    }
+    //배열체크
+    System.out.println("leftArray" + Arrays.toString(leftNum));
+    System.out.println("rightArray" + Arrays.toString(rightNum));
+
+    // 왼쪽 오른쪽 배열 나눔 재귀
+    mergeSort(leftNum, leftNum.length);
+    mergeSort(rightNum, leftNum.length);
+
+    merge(leftNum, rightNum, num);
+
+  }
+
+  private void merge(int[] leftNum, int[] rightNum, int[] num) {
+    int left = 0;
+    int right = 0;
+    int merge = 0;
+
+    while (leftNum.length != left && rightNum.length != right) {
+      if (leftNum[left] < rightNum[right]) {
+        num[merge] = leftNum[left];
+        merge++;
+        left++;
+      } else {
+        num[merge] = rightNum[right];
+        merge++;
+        right++;
+      }
+    }
+
+    while (leftNum.length != left) {
+      num[merge] = leftNum[left];
+      merge++;
+      left++;
+    }
+
+    while (rightNum.length != right) {
+      num[merge] = rightNum[right];
+      merge++;
+      right++;
+    }
+
+  }
+}
 
 
 //Shell, Radix, Quick, Merge
