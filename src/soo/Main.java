@@ -11,6 +11,12 @@ public class Main {
     Set<String> treeSet = new TreeSet<>();
     Collections.addAll(treeSet, test);
 
-    System.out.println(treeSet);
+
+    test();
+
+
+  }
+
+  private static void test() {
   }
 }
