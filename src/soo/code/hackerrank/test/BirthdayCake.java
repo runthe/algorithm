@@ -2,6 +2,7 @@ package soo.code.hackerrank.test;
 
 public class BirthdayCake {
 
+  //최대 최소와 관련된 문제
   public static void main(String[] args) {
     int result = birthdayCakeCandles(4, new int[]{3, 2, 1, 3});
     System.out.println(result);

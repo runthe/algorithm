@@ -1,6 +1,8 @@
 package soo;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -12,11 +14,19 @@ public class Main {
     Collections.addAll(treeSet, test);
 
 
-    test();
+    List<? extends String> list = new ArrayList<>();
+    list.add(null);
 
-
-  }
-
-  private static void test() {
   }
 }
+
+class Stack<T> {
+
+  private T[] elemenets;
+
+  public Stack() {
+    elemenets = (T[]) new Object[5];
+  }
+}
+
+

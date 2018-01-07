@@ -18,28 +18,31 @@ public class FindNumber {
   private static List<String> monthList = new ArrayList<>(Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"));
 
   static String[] findNumber(String[] dates) {
+    final String SEPARATOR = "-";
     int datesLength = dates.length;
-
-    String[] convertedDates = new String[datesLength];
-    String separator = "-";
+    String[] results = new String[datesLength];
 
     for (int i = 0; i < datesLength; i++) {
-      String[] dateArr = dates[i].split(" ");
+      String[] dateArray = dates[i].split(" ");
 
-      String year = dateArr[2];
-      String month = dateArr[1];
-      String day = dateArr[0];
+      String year = dateArray[2];
+      String month = dateArray[1];
+      String day = dateArray[0];
 
-      StringBuilder convertedDate = new StringBuilder();
-      convertedDate.append(year);
-      convertedDate.append(separator);
-      convertedDate.append(String.format("%02d", monthList.indexOf(month) + 1));
-      convertedDate.append(separator);
-      convertedDate.append(String.format("%02d", Integer.parseInt(day.replaceAll("[^0-9]", ""))));
+      String convertedMonth = String.format("%02d", monthList.indexOf(month) + 1);
+      String convertedDay = String.format("%02d", Integer.parseInt(day.replaceAll("[^0-9]", "")));
 
-      convertedDates[i] = convertedDate.toString();
+      StringBuilder convertedDateBuilder = new StringBuilder();
+      convertedDateBuilder.append(year);
+      convertedDateBuilder.append(SEPARATOR);
+      convertedDateBuilder.append(convertedMonth);
+      convertedDateBuilder.append(SEPARATOR);
+      convertedDateBuilder.append(convertedDay);
+
+      results[i] = convertedDateBuilder.toString();
     }
 
-    return convertedDates;
+
+    return results;
   }
 }

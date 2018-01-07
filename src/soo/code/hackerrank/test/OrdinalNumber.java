@@ -1,19 +1,13 @@
 package soo.code.hackerrank.test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class OrdinalNumber {
 
   public static void main(String[] args) {
-    /*String[] names = test(new String[]{
-      "Louis IX", "Louis VIII"
-    });*/
-
-    String[] names = test(new String[]{
+    String[] names = check(new String[]{
       "Soo XX", "Soo XXI", "Soo XI", "Soo XIX", "Kim XX", "Hwan XX", "Hwan XI", "Hwan XX", "Hwan XIII", "Hwan XII"
     });
 
@@ -22,79 +16,9 @@ public class OrdinalNumber {
     }
   }
 
+  private static List<String> mappedOrdinalNumbers = createMappedOrdinalNumbers();
 
-  static class NameOrdinal {
-    int index;
-    String ordinalNumber;
-
-    NameOrdinal(int index, String ordinalNumber) {
-      this.index = index;
-      this.ordinalNumber = ordinalNumber;
-    }
-
-    public String getOrdinalNumber() {
-      return this.ordinalNumber;
-    }
-
-    public int getIndex() {
-      return this.index;
-    }
-  }
-
-  public static String[] test(String[] names) {
-    Arrays.sort(names);
-    int namesLength = names.length;
-
-    Map<String, List<NameOrdinal>> sameNameMap = new HashMap<>();
-
-    for (int i = 0; i < namesLength; i++) {
-      String[] nameArr = names[i].split(" ");
-      String name = nameArr[0];
-      String ordinalNumber = nameArr[1];
-
-      if (sameNameMap.containsKey(name)) {
-        List<NameOrdinal> list = sameNameMap.get(name);
-        list.add(new NameOrdinal(i, ordinalNumber));
-        sameNameMap.put(name, list);
-      } else {
-        List<NameOrdinal> list = new ArrayList<>();
-        list.add(new NameOrdinal(i, ordinalNumber));
-        sameNameMap.put(name, list);
-      }
-    }
-
-    sortNamesByOrdinalNumber(names, sameNameMap);
-
-    return names;
-  }
-
-  private static void sortNamesByOrdinalNumber(String[] names, Map<String, List<NameOrdinal>> map) {
-    List<String> ordinalNumbers = createOrdinalNumbers();
-
-    for (String key : map.keySet()) {
-      List<NameOrdinal> list = map.get(key);
-      int listSize = list.size();
-      int min;
-      String temp;
-
-      for (int i = 0; i < listSize; i++) {
-        NameOrdinal nameOrdinal = list.get(i);
-        min = nameOrdinal.getIndex();
-
-        for (int j = i + 1; j < listSize; j++) {
-          if (ordinalNumbers.indexOf(nameOrdinal.getOrdinalNumber()) > ordinalNumbers.indexOf(list.get(j).getOrdinalNumber())) {
-            min = list.get(j).getIndex();
-          }
-        }
-
-        temp = names[min];
-        names[min] = names[nameOrdinal.getIndex()];
-        names[nameOrdinal.getIndex()] = temp;
-      }
-    }
-  }
-
-  static List<String> createOrdinalNumbers() {
+  static List<String> createMappedOrdinalNumbers() {
     List<String> ordinalNumbers = new ArrayList<>();
     ordinalNumbers.add("I");
     ordinalNumbers.add("II");
@@ -133,5 +57,57 @@ public class OrdinalNumber {
     }
 
     return ordinalNumbers;
+  }
+
+  private static String[] check(String[] inputs) {
+    int inputLength = inputs.length;
+    String[] results = new String[inputs.length];
+    List<OrdinalName> ordinalNumbers = new ArrayList<>();
+
+    for (String input : inputs) {
+      String[] nameArray = input.split(" ");
+
+      String name = nameArray[0];
+      String ordinal = nameArray[1];
+      int number = mappedOrdinalNumbers.indexOf(ordinal);
+
+      OrdinalName ordinalName = new OrdinalName(name, ordinal, number);
+      ordinalNumbers.add(ordinalName);
+    }
+
+    Collections.sort(ordinalNumbers);
+
+    for (int i = 0; i < inputLength; i++) {
+      results[i] = ordinalNumbers.get(i).getOrdinalName();
+    }
+
+    return results;
+  }
+}
+
+class OrdinalName implements Comparable<OrdinalName> {
+  private final String name;
+  private final String ordinal;
+  private final int ordinalNumber;
+
+  public OrdinalName(String name, String ordinal, int ordinalNumber) {
+    this.name = name;
+    this.ordinal = ordinal;
+    this.ordinalNumber = ordinalNumber;
+  }
+
+  public String getOrdinalName() {
+    return this.name + " " + this.ordinal;
+  }
+
+  @Override
+  public int compareTo(OrdinalName o) {
+    int nameResult = this.name.compareTo(o.name);
+
+    if (nameResult != 0) {
+      return nameResult;
+    }
+
+    return Integer.compare(this.ordinalNumber, o.ordinalNumber);
   }
 }
